@@ -9,38 +9,46 @@
 import UIKit
 
 class AddPostTableViewController: UITableViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    
+    // MARK: - Properties
+    
+    var image: UIImage?
+    
+    // MARK: - IB Actions
+    
+    @IBAction func selectImageButtonTapped(_ sender: Any) {
     }
-
-    // MARK: - TableViewDataSource
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+    
+    @IBAction func addPostButtonTapped(_ sender: Any) {
+        
+        if let image = image, 
+            let caption = captionTextField.text {
+            
+            PostController.sharedController.createPostWith(image: image, caption: caption) { (_) in
+                self.dismiss(animated: true, completion: nil)
+            }
+            
+        } else {
+            
+            let alertController = UIAlertController(title: "Missing Post Information", message: "Check your image and caption adn try again.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            
+            present(alertController, animated: true, completion: nil)
+        }
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+    
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-       
-
-        return cell
-    }
-
-    /*
+    
+    // MARK: - IB Outlets
+    
+    @IBOutlet weak var captionTextField: UITextField!
+    
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
     }
-    */
-
 }
